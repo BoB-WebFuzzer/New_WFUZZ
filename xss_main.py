@@ -38,7 +38,7 @@ class XSS:
 
     def Check(self, res):
         key_tmp = self.par.keys
-        if(res.text.find(self.par[key_tmp[0]])):
+        if((res.text.find(self.par[key_tmp[0]]))+1):
             return 1
         else:
             return 0
