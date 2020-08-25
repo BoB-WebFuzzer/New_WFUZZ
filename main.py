@@ -2,6 +2,7 @@ import getopt
 import sys
 import requests
 from xss_main import XSS
+from Dirtrav import Dirtrav
 
 
 optlist = "g:p:a:"
@@ -21,7 +22,8 @@ params = {}
 
 
 for i, j in opts:
-    if i == "-g":
+
+    if i == "-g": 
         url, getParams = j.split('?',1)
 
         plist = getParams.split('&')
@@ -30,7 +32,8 @@ for i, j in opts:
             pm, vl = plist[i].split('=',1)
             params[pm] = vl
 
-        get_xss = XSS("GET", url, params, path)
+        #get_xss = XSS("GET", url, params, path)
+        get_xss = Dirtrav("GET", url, params, path)
         get_xss.StartFuzz()
 
 
