@@ -7,7 +7,7 @@ import urllib.parse
 import time
 
 
-class XSS:
+class SQLi:
     count = 0
 
     def __init__(self, method, attack_url, params, path):
@@ -35,8 +35,6 @@ class XSS:
         self.c.setopt(self.c.FOLLOWLOCATION, 1)
         self.c.setopt(self.c.COOKIEFILE, 'cookie.txt')
         self.c.setopt(self.c.COOKIEJAR, 'cookie.txt')
-        self.buffer = BytesIO()
-        self.c.setopt(self.c.WRITEDATA, self.buffer)
         if method == "GET":
             self.c.setopt(self.c.HTTPGET, True)
             self.c.setopt(self.c.POST, False)
@@ -60,6 +58,8 @@ class XSS:
             self.Fuzz(i)
 
     def Fuzz(self, vector):
+        self.buffer = BytesIO()
+        self.c.setopt(self.c.WRITEDATA, self.buffer)
 
         self.mut = self.InsertSeed(vector)
         #print(param)
@@ -94,9 +94,11 @@ class XSS:
                 idx = i
                 break
 
-        print(res)
-        print(self.mut[i])
-        if res.find(self.mut[i])!=-1 :
+        #print(res)
+        #print(self.mut[i])
+        a = res.find("Error")
+        if  a !=-1:
+            print(res[a:a+153])
             return 1
         else:
             return 0
@@ -104,9 +106,9 @@ class XSS:
         # 결과 정리
         # format: "TYPE, #         Code            Success         Payload"
         #self.c.close()
-        XSS.count += 1
+        SQLi.count += 1
         #time.sleep(3)
         r = self.c.getinfo(pycurl.HTTP_CODE)
-        result_string = "{:<16}{:<16}{:<16}{}".format("xss#" + str(XSS.count), r,
+        result_string = "{:<16}{:<16}{:<16}{}".format("sqli#" + str(SQLi.count), r,
                                                       self.Check(res), self.temp)
         print(result_string)

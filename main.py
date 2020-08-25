@@ -2,6 +2,7 @@ import getopt
 import sys
 import requests
 from xss_main import XSS
+from sqli_main import SQLi
 #from Dirtrav import Dirtrav
 
 
@@ -16,7 +17,9 @@ opts, args = getopt.getopt(sys.argv[1:], optlist)
 
 
 url = ""
-path = args[0]
+
+type = args[0]
+path = args[1]
 
 params = {}
 
@@ -32,9 +35,12 @@ for i, j in opts:
             pm, vl = plist[i].split('=',1)
             params[pm] = vl
 
-        get_xss = XSS("GET", url, params, path)
+        if type == "xss":
+            XSS("GET", url, params, path).StartFuzz()
+        elif type == "sqli":
+            SQLi("GET", url, params, path).StartFuzz()
         #get_xss = Dirtrav("GET", url, params, path)
-        get_xss.StartFuzz()
+
 
 
     elif i == "-p":
@@ -52,8 +58,10 @@ for i, j in opts:
             pm, vl = plist[i].split('=',1)
             params[pm] = vl
 
-        get_xss = XSS("POST", url, params, path)
-        get_xss.StartFuzz()
+        if type == "xss":
+            XSS("POST", url, params, path).StartFuzz()
+        elif type == "sqli":
+            SQLi("POST", url, params, path).StartFuzz()
 
 
     else:
