@@ -49,7 +49,7 @@ class Dirtrav:
             self.c.setopt(self.c.HTTPGET, False)
 
 
-        self.seed = open(path, "r")  # 시드파일 경로
+        self.seed = open(path, "r") # 시드파일 경로 
 
         tmp = self.seed.readlines()
         self.seed.close()
@@ -59,8 +59,9 @@ class Dirtrav:
 
 
     def StartFuzz(self):
-        for i in self.seed:
-            self.Fuzz(i.rstrip('\n'))
+        self.Fuzz(self.seed[0].rstrip('\n'))
+        #for i in self.seed:
+        #    self.Fuzz(i.rstrip('\n'))
 
     def Fuzz(self, vector):
         self.mut = self.InsertSeed(vector)
@@ -84,6 +85,12 @@ class Dirtrav:
         return temp
 
     def Check(self, res):
+        print('res', res)
+        if res.find("doesn't exist!") != -1 :
+            return 1
+        else :
+            return 0
+        '''  
         idx = 0
         for i, j in self.par.items():
             if j == "$":
@@ -95,6 +102,7 @@ class Dirtrav:
             return 1
         else:
             return 0
+        '''
     def ResultProcess(self, res):
         # 결과 정리
         # format: "TYPE, #         Code            Success         Payload"
