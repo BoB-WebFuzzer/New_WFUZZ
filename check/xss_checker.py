@@ -8,15 +8,16 @@ import os
 # webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
 
 class Checkseed():
-    def __init__(self):
+    def __init__(self, seed):
+        self.seed = seed
         self.chrome_opt = webdriver.ChromeOptions()
         self.chrome_opt.add_argument("--incognito")
         #self.chrome_options.add_argument("--headless")
         self.driver = webdriver.Chrome('./chromedriver', chrome_options=self.chrome_opt)
     def preprocess(self):
-        fd = open("test.html", "r")
+        #fd = open("test.html", "r")
         fp = open("test2.html", "w")
-        string = fd.readline()
+        string = self.seed
         string = "<script>location.reload = () => {}; window.testSuccess = false; window.test = () => testSuccess = true;</script>" + "\n" + string
         fp.writelines(string)
 
@@ -31,6 +32,6 @@ class Checkseed():
 # string = fd.readline()
 # string =  "<script>location.reload = () => {}; window.testSuccess = false; window.test = () => testSuccess = true;</script>" + "\n" +string
 # fp.writelines(string)
-ch = Checkseed()
-ch.checking()
+# ch = Checkseed()
+# ch.checking()
 

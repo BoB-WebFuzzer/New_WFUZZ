@@ -5,6 +5,7 @@ from io import BytesIO
 import copy
 import urllib.parse
 import time
+from check.xss_checker import Checkseed
 
 
 class XSS:
@@ -57,7 +58,8 @@ class XSS:
 
     def StartFuzz(self):
         for i in self.seed:
-            self.Fuzz(i)
+            if Checkseed(i).checking() :
+                self.Fuzz(i)        
 
     def Fuzz(self, vector):
 
