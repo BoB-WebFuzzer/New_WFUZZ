@@ -3,6 +3,7 @@ import sys
 import requests
 from xss_main import XSS
 from Dirtrav import Dirtrav
+from Oscinjec import Oscinjec
 
 
 optlist = "g:p:a:"
@@ -52,7 +53,8 @@ for i, j in opts:
             pm, vl = plist[i].split('=',1)
             params[pm] = vl
 
-        get_xss = XSS("POST", url, params, path)
+        #get_xss = XSS("POST", url, params, path)
+        get_xss = Oscinjec("POST", url, params, path)
         get_xss.StartFuzz()
 
 

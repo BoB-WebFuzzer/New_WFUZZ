@@ -9,7 +9,7 @@ import time
 import re
 
 
-class Dirtrav:
+class Oscinjec:
     count = 0
 
     def __init__(self, method, attack_url, params, path):
@@ -69,9 +69,9 @@ class Dirtrav:
 
 
     def StartFuzz(self):
-        self.Fuzz(self.seed[0].rstrip('\n'))
-        #for i in self.seed:
-        #    self.Fuzz(i.rstrip('\n'))
+        #self.Fuzz(self.seed[0].rstrip('\n'))
+        for i in self.seed:
+            self.Fuzz(i.rstrip('\n'))
 
     def Fuzz(self, vector):
         self.mut = self.InsertSeed(vector)
@@ -95,29 +95,25 @@ class Dirtrav:
         return temp
 
     def Check(self, res):
+        # <p class="align-left"> 데이터의 길이가 www.nsa.gov만 쳤을 때의 결과값보다 길면 통과하는걸로
         print('res', res)
-        if res.find("doesn't exist!") != -1 :
-            return 1
-        else :
+        payload = self.mut['target'].replace('\t', '')
+        if res.find("Enter a domain name") != -1 :
             return 0
-        '''  
-        idx = 0
-        for i, j in self.par.items():
-            if j == "$":
-                idx = i
-                break
+        if res.find("server can't find " + payload) != -1:
+            return 0
+        if res.find("root:x:0:0:root:") != -1 :
+            return 1
+        if res.find("daemon:x:1:1:daemon:") != -1 :
+            return 1
 
-        #print(self.mut[i])
-        if res.find(self.mut[i])!=-1 :
-            return 1
-        else:
-            return 0
-        '''
+        return 0
+        
     def ResultProcess(self, res):
         # 결과 정리
         # format: "TYPE, #         Code            Success         Payload"
-        Dirtrav.count += 1
+        Oscinjec.count += 1
         r = self.c.getinfo(pycurl.HTTP_CODE)
-        result_string = "{:<16}{:<16}{:<16}{}".format("xss#" + str(Dirtrav.count), r,
+        result_string = "{:<16}{:<16}{:<16}{}".format("Oscinjec#" + str(Oscinjec.count), r,
                                                       self.Check(res), self.temp)
         print(result_string)
