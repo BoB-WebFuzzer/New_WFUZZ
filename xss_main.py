@@ -14,7 +14,7 @@ class XSS:
     def __init__(self, method, attack_url, params, path):
 
         loginfo = {"login": "bee", "password": "bug", "security_level": "0", "form": "submit"}
-        loginUrl = "http://172.30.1.21:8080/bWAPP/login.php"
+        loginUrl = "http://192.168.0.36:8080/bWAPP/login.php"
         self.C = pycurl.Curl()
         self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
         self.C.setopt(self.C.POST,True)
@@ -48,19 +48,24 @@ class XSS:
 
 
         self.seed = open(path, "r")  # 시드파일 경로
-
         tmp = self.seed.readlines()
         self.seed.close()
         self.seed = tmp
+        self.driver = Checkseed()
+
+        self.failvec = ""
 
 
 
 
     def StartFuzz(self):
-        self.Fuzz(self.seed[0].replace('\n', ''))
-        #for i in self.seed:
-        #    if Checkseed(i).checking() :
-        #        self.Fuzz(i)        
+        #self.Fuzz(self.seed[0].replace('\n', ''))
+        for i in self.seed:
+            if self.driver.checking(i):
+               self.Fuzz(i)
+            else:
+                self.failvec = i
+                self.ResultProcess(None)
 
     def Fuzz(self, vector):
 
@@ -68,7 +73,6 @@ class XSS:
         #print(param)
         if (self.method == "GET"):
             gurl = self.url + '?' + urllib.parse.urlencode(self.mut)
-            print(gurl)
             self.c.setopt(self.c.URL, gurl)
         #    res = requests.get(self.url, params=self.InsertSeed(vector))  # @ --> 공격 시드로 변경
 
@@ -109,6 +113,11 @@ class XSS:
         #self.c.close()
         XSS.count += 1
         #time.sleep(3)
+        if res == None:
+            result_string = "{:<16}{:<16}{:<16}{}".format("xss#" + str(XSS.count), "Fail",
+                                                          '0', self.failvec)
+            print(result_string)
+            return
         r = self.c.getinfo(pycurl.HTTP_CODE)
         result_string = "{:<16}{:<16}{:<16}{}".format("xss#" + str(XSS.count), r,
                                                       self.Check(res), self.temp)
