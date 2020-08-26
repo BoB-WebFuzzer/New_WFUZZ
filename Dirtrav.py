@@ -16,19 +16,12 @@ class Dirtrav:
 
         self.url = attack_url  # 공격 대상
         loginfo = {"login": "bee", "password": "bug", "security_level": "0", "form": "submit"}
-        loginUrl = "http://" + re.search('[0-9]+(?:\.[0-9]+){3}', self.url).group() + "/:8080/bWAPP/login.php"
+        #loginUrl = "http://" + re.search('[0-9]+(?:\.[0-9]+){3}', self.url).group() + "/:8080/bWAPP/login.php"
+        loginUrl = "http://172.30.1.21/bWAPP/login.php"
 
 
         self.C = pycurl.Curl()
-        '''
-        self.C.setopt(self.C.COOKIEFILE, 'cookie.txt')
-        self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
-        self.C.setopt(self.C.POST,True)
-        self.C.setopt(self.C.FOLLOWLOCATION, 1)
-        data = json.dumps(loginfo)
-        self.C.setopt(self.C.POSTFIELDS, data)
-        self.C.setopt(self.C.URL,loginUrl )
-        '''
+  
         self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
         self.C.setopt(self.C.POST,True)
         self.C.setopt(self.C.FOLLOWLOCATION, 1)
@@ -38,6 +31,10 @@ class Dirtrav:
         self.C.setopt(self.C.URL,loginUrl )
         
         self.C.perform()
+
+        #time.sleep(5)
+        print('woojung')
+
         self.temp = {}
         self.mut = {}
 
@@ -77,10 +74,11 @@ class Dirtrav:
         self.mut = self.InsertSeed(vector)
         if (self.method == "GET"):
             self.c.setopt(self.c.URL, self.url + '?' + urllib.parse.urlencode(self.mut))
+            print('url_woojung : ', self.url + '?' + urllib.parse.urlencode(self.mut))
        
         else:  
-            data = json.dumps(self.mut)
-            self.c.setopt(self.c.POSTFIELDS, data)
+            #data = json.dumps(self.mut)
+            self.c.setopt(self.c.POSTFIELDS, urllib.parse.urlencode(self.mut))
         self.c.perform()
         self.res = self.buffer.getvalue()
         self.ResultProcess(self.res.decode('euc-kr'))
@@ -97,9 +95,9 @@ class Dirtrav:
     def Check(self, res):
         print('res', res)
         if res.find("doesn't exist!") != -1 :
-            return 1
-        else :
             return 0
+        else :
+            return 1
         '''  
         idx = 0
         for i, j in self.par.items():
