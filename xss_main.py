@@ -14,7 +14,7 @@ class XSS:
     def __init__(self, method, attack_url, params, path):
 
         loginfo = {"login": "bee", "password": "bug", "security_level": "0", "form": "submit"}
-        loginUrl = "http://192.168.57.1:8080/bWAPP/login.php"
+        loginUrl = "http://172.30.1.21:8080/bWAPP/login.php"
         self.C = pycurl.Curl()
         self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
         self.C.setopt(self.C.POST,True)
@@ -57,9 +57,10 @@ class XSS:
 
 
     def StartFuzz(self):
-        for i in self.seed:
-            if Checkseed(i).checking() :
-                self.Fuzz(i)        
+        self.Fuzz(self.seed[0].replace('\n', ''))
+        #for i in self.seed:
+        #    if Checkseed(i).checking() :
+        #        self.Fuzz(i)        
 
     def Fuzz(self, vector):
 
@@ -96,8 +97,8 @@ class XSS:
                 idx = i
                 break
 
-        print(res)
-        print(self.mut[i])
+        #print(res)
+        #print(self.mut[i])
         if res.find(self.mut[i])!=-1 :
             return 1
         else:
