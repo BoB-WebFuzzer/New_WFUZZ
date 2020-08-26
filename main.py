@@ -4,6 +4,7 @@ import requests
 from xss_main import XSS
 from sqli_main import SQLi
 from Dirtrav import Dirtrav
+from Osci import Osci
 
 
 optlist = "g:p:a:"
@@ -67,6 +68,8 @@ for i, j in opts:
             XSS("POST", url, params, path).StartFuzz()
         elif type == "sqli":
             SQLi("POST", url, params, path).StartFuzz()
+        elif type == "osci":
+            Osci("POST", url, params, path).StartFuzz()
 
 
     else:

