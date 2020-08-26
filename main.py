@@ -3,7 +3,7 @@ import sys
 import requests
 from xss_main import XSS
 from sqli_main import SQLi
-#from Dirtrav import Dirtrav
+from Dirtrav import Dirtrav
 
 
 optlist = "g:p:a:"
@@ -27,6 +27,7 @@ params = {}
 for i, j in opts:
 
     if i == "-g":
+
         url, getParams = j.split('?',1)
 
         plist = getParams.split('&')
@@ -39,6 +40,8 @@ for i, j in opts:
             XSS("GET", url, params, path).StartFuzz()
         elif type == "sqli":
             SQLi("GET", url, params, path).StartFuzz()
+        elif type == "dirt":
+            Dirtrav("GET", url, params, path).StartFuzz()
         #get_xss = Dirtrav("GET", url, params, path)
 
 

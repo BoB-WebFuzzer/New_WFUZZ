@@ -12,8 +12,14 @@ class SQLi:
 
     def __init__(self, method, attack_url, params, path):
 
+        idx = 0
+        for k in range(len(attack_url[7:])):
+            if attack_url[k+7] == "/":
+                idx = k+7
+                break
+
         loginfo = {"login": "bee", "password": "bug", "security_level": "0", "form": "submit"}
-        loginUrl = "http://192.168.57.1:8080/bWAPP/login.php"
+        loginUrl = attack_url[:idx]+"/bWAPP/login.php"
         self.C = pycurl.Curl()
         self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
         self.C.setopt(self.C.POST,True)
@@ -71,7 +77,7 @@ class SQLi:
 
 
         else:  # (self.method == "POST"):
-            #print(self.url)
+            print(self.url)
             self.c.setopt(self.c.POSTFIELDS, urllib.parse.urlencode(self.mut))
         #    res = requests.post(self.url, data=self.InsertSeed(vector))  # @ --> 공격 시드로 변경
         self.c.perform()
@@ -88,14 +94,8 @@ class SQLi:
         return temp
 
     def Check(self, res):
-        idx = 0
-        for i, j in self.par.items():
-            if j == "$":
-                idx = i
-                break
 
-        #print(res)
-        #print(self.mut[i])
+        print(self.mut[i])
         a = res.find("Error")
         if  a !=-1:
             print(res[a:a+153])
