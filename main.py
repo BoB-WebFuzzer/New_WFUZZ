@@ -11,8 +11,11 @@ optlist = "g:p:a:"
 
 
 def usage():
-    print("python main.py -g <attack_url?params> <xss/sqli/dirt> <seed_path>")
-    print("python main.py -p <attack_url> -a <params> <xss/sqli> <seed_path>")
+    print("directory traversal : python main.py -g <url+?+params> dirt <seed_path>")
+    print("sql injection : python main.py -g <url+?+params> sqli <seed_path>")
+    print("sql injection : python main.py -p <url> -a <params> sqli <seed_path>")
+    print("xss : python main.py -g <url+?+params> xss <seed_path>")
+    print("xss python main.py -p <url> -a <params> xss <seed_path>")
 
 opts, args = getopt.getopt(sys.argv[1:], optlist)
 
