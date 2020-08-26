@@ -1,29 +1,27 @@
 "><script>"
+%20
 <script>
 '><script>
+%20
 \";
-
 '; <script>
 %3cscript%3e
-
+%20
 &ltscript&gt
+%20
 \"
-
-\’
 '';!--"
-
+%20
 %253Cscript%253E
-
+%20
 <scr<script>ipt>
 %3cscript%3e
+%20
 '';!--"
+%20
 //|\\ <script>
 '`"><\x3Cscript>
+%20
 '`"><\x00script>
-
+%20
 --><!-- --\x00>
-
-
-
-
-<script>

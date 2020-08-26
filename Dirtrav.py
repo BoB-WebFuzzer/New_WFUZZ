@@ -99,7 +99,7 @@ class Dirtrav:
             if j == "$":
                 idx = i
                 break
-
+        #print('res', res)
         if res.find(self.mut[idx]) != -1:
             return 1
         else:
