@@ -21,7 +21,6 @@ class Dirtrav:
 
 
         self.C = pycurl.Curl()
-  
         self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
         self.C.setopt(self.C.POST,True)
         self.C.setopt(self.C.FOLLOWLOCATION, 1)
@@ -29,10 +28,9 @@ class Dirtrav:
         self.C.setopt(self.C.WRITEDATA, buf)
         self.C.setopt(self.C.POSTFIELDS, urllib.parse.urlencode(loginfo))
         self.C.setopt(self.C.URL,loginUrl )
-        
         self.C.perform()
 
-        #time.sleep(5)
+        time.sleep(1)
         print('woojung')
 
         self.temp = {}
@@ -46,7 +44,7 @@ class Dirtrav:
         self.c.setopt(self.c.COOKIEJAR, 'cookie.txt')
         self.buffer = BytesIO()
         self.c.setopt(self.c.WRITEDATA, self.buffer)
-        self.c.setopt(self.c.VERBOSE, 0)
+        #self.c.setopt(self.c.VERBOSE, 0)
         if method == "GET":
             self.c.setopt(self.c.HTTPGET, True)
             self.c.setopt(self.c.POST, False)
@@ -74,7 +72,8 @@ class Dirtrav:
         self.mut = self.InsertSeed(vector)
         if (self.method == "GET"):
             self.c.setopt(self.c.URL, self.url + '?' + urllib.parse.urlencode(self.mut))
-            print('url_woojung : ', self.url + '?' + urllib.parse.urlencode(self.mut))
+            #print('url_woojung : ', self.url + '?' + urllib.parse.urlencode(self.mut))
+
        
         else:  
             #data = json.dumps(self.mut)

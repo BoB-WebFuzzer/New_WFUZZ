@@ -16,20 +16,12 @@ class Oscinjec:
 
         self.url = attack_url  # 공격 대상
         loginfo = {"login": "bee", "password": "bug", "security_level": "0", "form": "submit"}
-        loginUrl = "http://" + re.search('[0-9]+(?:\.[0-9]+){3}', self.url).group() + "/:8080/bWAPP/login.php"
+        #loginUrl = "http://" + re.search('[0-9]+(?:\.[0-9]+){3}', self.url).group() + "/:8080/bWAPP/login.php"
+        loginUrl = "http://172.30.1.21/bWAPP/login.php"
 
 
         self.C = pycurl.Curl()
-        '''
-        self.C.setopt(self.C.COOKIEFILE, 'cookie.txt')
-        self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
-        self.C.setopt(self.C.POST,True)
-        self.C.setopt(self.C.FOLLOWLOCATION, 1)
-        data = json.dumps(loginfo)
-        self.C.setopt(self.C.POSTFIELDS, data)
-        self.C.setopt(self.C.URL,loginUrl )
-        '''
-        self.C.setopt(self.C.COOKIEJAR, 'cookie.txt')
+        self.C.setopt(self.C.COOKIEJAR, 'osci_cookie.txt')
         self.C.setopt(self.C.POST,True)
         self.C.setopt(self.C.FOLLOWLOCATION, 1)
         buf = BytesIO()
@@ -45,8 +37,8 @@ class Oscinjec:
         self.par = params  # 파라미터
         self.c = pycurl.Curl()
         self.c.setopt(self.c.FOLLOWLOCATION, 1)
-        self.c.setopt(self.c.COOKIEFILE, 'cookie.txt')
-        self.c.setopt(self.c.COOKIEJAR, 'cookie.txt')
+        self.c.setopt(self.c.COOKIEFILE, 'osci_cookie.txt')
+        self.c.setopt(self.c.COOKIEJAR, 'osci_cookie.txt')
         self.buffer = BytesIO()
         self.c.setopt(self.c.WRITEDATA, self.buffer)
         self.c.setopt(self.c.VERBOSE, 0)
@@ -69,9 +61,9 @@ class Oscinjec:
 
 
     def StartFuzz(self):
-        #self.Fuzz(self.seed[0].rstrip('\n'))
-        for i in self.seed:
-            self.Fuzz(i.rstrip('\n'))
+        self.Fuzz(self.seed[0].rstrip('\n'))
+        #for i in self.seed:
+        #    self.Fuzz(i.rstrip('\n'))
 
     def Fuzz(self, vector):
         self.mut = self.InsertSeed(vector)

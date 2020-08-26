@@ -34,6 +34,9 @@ for i, j in opts:
             params[pm] = vl
 
         #get_xss = XSS("GET", url, params, path)
+        print('main_url : ', url)
+        print('main_params : ', params)
+        print('main_path : ', path)
         get_xss = Dirtrav("GET", url, params, path)
         get_xss.StartFuzz()
 
