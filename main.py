@@ -11,7 +11,7 @@ optlist = "g:p:a:"
 
 
 def usage():
-    print()
+    print("python main.py -<p/g> <attack_url> -a <parmas> <xss/sqli/dirt> <seed_path>")
 
 opts, args = getopt.getopt(sys.argv[1:], optlist)
 
